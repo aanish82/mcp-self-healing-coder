@@ -120,12 +120,36 @@ export function parseDiagnostics(output: string): Diagnostic[] {
       });
       continue;
     }
+
+    // 7. Node.js stack / standard exceptions: [eval]:1 or file.js:10
+    const nodePattern = /^([^\s:]+\.[a-zA-Z0-9]+|\[[a-zA-Z0-9_-]+\]):(\d+)(?::(\d+))?$/i;
+    match = line.match(nodePattern);
+    if (match) {
+      // Find following error message like SyntaxError or TypeError
+      let msg = "Runtime execution error";
+      for (let j = i + 1; j < Math.min(i + 6, lines.length); j++) {
+        const next = lines[j].trim();
+        if (next && (/Error:/.test(next) || /Exception:/.test(next))) {
+          msg = next;
+          break;
+        }
+      }
+      diagnostics.push({
+        file: match[1],
+        line: parseInt(match[2], 10),
+        column: match[3] ? parseInt(match[3], 10) : undefined,
+        severity: "error",
+        message: msg,
+        raw: line,
+      });
+      continue;
+    }
   }
 
   // Fallback: If no structured diagnostics matched but output contains error keywords, capture lines
   if (diagnostics.length === 0) {
     const errorLines = lines.filter((l) =>
-      /\b(error|fatal|exception|failed|failure)\b/i.test(l) &&
+      /(error|exception|failed|failure|fatal)/i.test(l) &&
       !l.startsWith("info") &&
       !l.startsWith("debug")
     );
