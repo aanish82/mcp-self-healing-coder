@@ -44,7 +44,7 @@ Add this to your `claude_desktop_config.json`:
   "mcpServers": {
     "self-healing-coder": {
       "command": "node",
-      "args": ["/home/anishb/projects/mcp-self-healing-coder/dist/index.js"],
+      "args": ["/path/to/mcp-self-healing-coder/dist/index.js"],
       "env": {
         "ANTHROPIC_API_KEY": "sk-ant-...",
         "OPENAI_API_KEY": "sk-..."
@@ -59,7 +59,7 @@ Add this to your `claude_desktop_config.json`:
 2. Click **Add New MCP Server**.
 3. Name: `self-healing-coder`
 4. Type: `command`
-5. Command: `node /home/anishb/projects/mcp-self-healing-coder/dist/index.js`
+5. Command: `node /path/to/mcp-self-healing-coder/dist/index.js`
 
 ### 3. Antigravity CLI / Sidecars
 Add to your Antigravity configuration or launch with:
@@ -68,7 +68,7 @@ Add to your Antigravity configuration or launch with:
   "mcpServers": {
     "self-healing-coder": {
       "command": "node",
-      "args": ["/home/anishb/projects/mcp-self-healing-coder/dist/index.js"]
+      "args": ["/path/to/mcp-self-healing-coder/dist/index.js"]
     }
   }
 }
@@ -85,7 +85,7 @@ If you don't want to use paid API keys, point to a local Ollama instance:
   "mcpServers": {
     "self-healing-coder": {
       "command": "node",
-      "args": ["/home/anishb/projects/mcp-self-healing-coder/dist/index.js"],
+      "args": ["/path/to/mcp-self-healing-coder/dist/index.js"],
       "env": {
         "OLLAMA_BASE_URL": "http://localhost:11434",
         "OLLAMA_MODEL": "qwen2.5-coder"
