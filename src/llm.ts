@@ -22,7 +22,8 @@ export async function requestFixFromLLM(
     if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not set.");
     const model = config.model || process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-20241022";
 
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const baseURL = config.baseURL || process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com";
+    const res = await fetch(`${baseURL}/v1/messages`, {
       method: "POST",
       headers: {
         "x-api-key": apiKey,
